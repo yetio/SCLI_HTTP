@@ -46,46 +46,56 @@ Below is the sclibridge command list as of 7.1.1
 
 ```
 usage: sclibridge <command> <command arguments>
-  readstate 
+  readstate
      <first state name> ... - List of up to 100 state names, space seperated. Returns state names, 1 per line.
-  writestate 
+  writestate
      <first state name> <first state value> ... - List of up to 100 state name and value pairs.
-  servicerequest 
+  servicerequest
       <zone> <source component> <source logical component> <service variant> <service type> <request> <first argument name> <first argument value> ...
-  servicerequestcommand 
+  servicerequestjsonargs
+      <zone> <source component> <source logical component> <service variant> <service type> <request> <json dictionary of request arguments - must be single quoted as one arg>
+  servicerequestcommand
       <dash separated service request: (zone)-(source component)-(source logical component)-(service variant)-(service type)-(request)> <first argument name> <first argument value> ...
       Note: prior to 5.2.1er2 the order of service variant and service type was reversed.  Upgrades to 5.2.1er2 and later that user servicerequestcommand must swap the order of these parameters.
   userzones - returns a list of the users zones, 1 per line.
+  servicesforzone
+       <zone> - returns a list of services for that zone, 1 per line.
   statenames - query names of states. NOTE: running this command can impact system performance.  It should be run as infrequently as possible
       <filter> - regular expression to filter returned states (optional)
-  settrigger 
+  settrigger
       <triggername> <transitionCount> <Match Entry Type> <Match Entry State Scope> <Match Entry State Name> <Match Logic> <Match Data> <prematchCount> <Match Entry Type> <Match Entry State Scope> <Match Entry State Name> <Match Logic> <Match Data> <serviceZone> <serviceSourceComponentName> <serviceLogicalName> <serviceVariant ID> <serviceType> <serviceReq> <serviceReq first argument name> <serviceReqfirst argument value> ...
-               ********************************************************* 
-               * If transitionCount is equl to 0, then the next five   * 
-               * entries are not included, the next piece of data      * 
-               * would be prematchcount, conversely if the count is    * 
-               * greater then 1, then those five are repeated that     * 
-               * many times.  If you are adding a Logical Operator of  * 
-               * "OR" set the "Match Entry Type" to "State" and the    * 
-               * "Match Entry State Scope" to "OR"                     * 
-               *                                                       * 
-               * Match Entry Types Supported                           * 
-               *    Logic - OR is the only supported value             * 
-               *    State - When you want to match another state       * 
-               *    Bool - TRUE, true, FALSE, false                    * 
-               *    String - Everything Else                           * 
-               *                                                       * 
-               * Example: (increment a state when sec = 0,20,40)       * 
-               * /Users/RPM/Applications/RacePointMedia/sclibridge     * 
-               * "testTrigger" "5" "String" "global" "CurrentSecond"   * 
-               * "Equal" "0" "Logic" "OR" "String" "global" "CurrentSecond" "Equal" "20"* 
-               * "Logic" "OR" "String" "global" "CurrentSecond" "Equal" "40" "0"        * 
-               * "Shelbys Room" "Savant System" "" "1"                 * 
-               *  "SVC_GEN_GENERIC" "RunCLIProgram" "COMMAND_STRING"   * 
-               * "perl /Users/RPM/Documents/TestScripts/incStateVal.pl"* 
-               ********************************************************* 
-  removetrigger 
-      <triggername> 
-
-
-```
+               *********************************************************
+               * If transitionCount is equl to 0, then the next five   *
+               * entries are not included, the next piece of data      *
+               * would be prematchcount, conversely if the count is    *
+               * greater then 1, then those five are repeated that     *
+               * many times.  If you are adding a Logical Operator of  *
+               * "OR" set the "Match Entry Type" to "State" and the    *
+               * "Match Entry State Scope" to "OR"                     *
+               *                                                       *
+               * Match Entry Types Supported                           *
+               *    Logic - OR is the only supported value             *
+               *    State - When you want to match another state       *
+               *    Bool - TRUE, true, FALSE, false                    *
+               *    String - Everything Else                           *
+               *                                                       *
+               * Example: (increment a state when sec = 0,20,40)       *
+               * /Users/RPM/Applications/RacePointMedia/sclibridge     *
+               * "testTrigger" "5" "String" "global" "CurrentSecond"   *
+               * "Equal" "0" "Logic" "OR" "String" "global" "CurrentSecond" "Equal" "20"*
+               * "Logic" "OR" "String" "global" "CurrentSecond" "Equal" "40" "0"        *
+               * "Shelbys Room" "Savant System" "" "1"                 *
+               *  "SVC_GEN_GENERIC" "RunCLIProgram" "COMMAND_STRING"   *
+               * "perl /Users/RPM/Documents/TestScripts/incStateVal.pl"*
+               *********************************************************
+  removetrigger
+      <triggername>
+  getSceneNames
+     <csv filename> - Scenes will be wrritten to the CSV file (Name, ID, User)
+                    - Example - sclibridge getSceneNames test.csv
+  activateScene
+     <scene name> <scene id> <scene user> - For Mac use "'" around each input
+                    - Example - sclibridge activateScene 'billiard lights on' 'CCED55FE-A9E1-4BFC-8814-3EE814134E51' 'tim.locascio@savant.com'
+  removeScene
+     <scene name> <scene id> <scene user> - For Mac use "'" around each input
+                    - Example - sclibridge activateScene 'billiard lights on' 'CCED55FE-A9E1-4BFC-8814-3EE814134E51' 'tim.locascio@savant.com'
